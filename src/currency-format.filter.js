@@ -10,9 +10,10 @@ angular.module('currencyFormat', ['currencyFormat.iso'])
          * @param string currencyCode e.g. EUR, USD
          * @param number fractionSize User specified fraction size that overwrites default value
          * @param boolean useUniqSymbol use unique currency symbol
+         * @param boolean trustAsHtml
          * @return string
          */
-        return function (amount, currencyCode, fractionSize = null, useUniqSymbol = true) {
+        return function (amount, currencyCode, fractionSize = null, useUniqSymbol = true, trustAsHtml = true) {
             if (!currencyCode || Number(amount) != amount) {
                 return;
             }
@@ -58,6 +59,6 @@ angular.module('currencyFormat', ['currencyFormat.iso'])
                 formattedCurrency = signAmount + formatedAmount + ' ' + currencyCode;
             }
 
-            return $sce.trustAsHtml('<span dir="' + (rtl ? 'rtl' : 'ltr') + '">' + formattedCurrency + '</span>');
+            return !trustAsHtml ? formattedCurrency : $sce.trustAsHtml('<span dir="' + (rtl ? 'rtl' : 'ltr') + '">' + formattedCurrency + '</span>');
         };
     }]);

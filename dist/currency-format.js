@@ -2121,6 +2121,7 @@ angular.module('currencyFormat', ['currencyFormat.iso']).filter('currencyFormat'
   return function(amount, currencyCode) {
     var fractionSize = arguments[2] !== (void 0) ? arguments[2] : null;
     var useUniqSymbol = arguments[3] !== (void 0) ? arguments[3] : true;
+    var trustAsHtml = arguments[4] !== (void 0) ? arguments[4] : true;
     if (!currencyCode || Number(amount) != amount) {
       return;
     }
@@ -2151,6 +2152,6 @@ angular.module('currencyFormat', ['currencyFormat.iso']).filter('currencyFormat'
     } else {
       formattedCurrency = signAmount + formatedAmount + ' ' + currencyCode;
     }
-    return $sce.trustAsHtml('<span dir="' + (rtl ? 'rtl' : 'ltr') + '">' + formattedCurrency + '</span>');
+    return !trustAsHtml ? formattedCurrency : $sce.trustAsHtml('<span dir="' + (rtl ? 'rtl' : 'ltr') + '">' + formattedCurrency + '</span>');
   };
 }]);
